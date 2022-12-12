@@ -3,4 +3,6 @@ ICI TOUTES LES UPDATES
 
 VLP connection (12/12/2022 14h12)
 
-DAV connection (12/12/2022 14h12)
+DYG connection (12/12/2022 14h12)
+
+AYV connection (12/12/2022 14h16)
