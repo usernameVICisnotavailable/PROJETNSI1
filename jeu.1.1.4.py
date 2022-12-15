@@ -42,6 +42,9 @@ def menu():
             print("\nVeuillez renseigner un jeu valide.")
 
 def creer_grille(nb_colones,nb_ligne):
+    '''
+    modifie la valeur de la variable grill. Du coup attention a creer une variable grille
+    '''
     global grille
     grille=[[" " for _ in range(nb_colones)] for _ in range(nb_ligne)]
 
