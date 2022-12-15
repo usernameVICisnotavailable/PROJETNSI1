@@ -23,4 +23,4 @@ VLP : Lien vers la vidéo sur GIT : https://www.youtube.com/watch?v=gp_k0UVOYMw&
         → méthode agile : faire qqchose qui marche le + vite possible , même si les fonctionalités sont manquantes
         → jalons
         → répartition du travail
-        → communication avec le professeu
+        → communication avec le professeur
