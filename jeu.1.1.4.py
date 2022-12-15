@@ -1,3 +1,4 @@
+# EN COURS DE MODIFICATION
 def def_mode(valeur):
     '''Change la valeur de mode pour la définir comme celle du menu'''
     global mode # comme la valeur du mode va etre modifie
@@ -40,13 +41,18 @@ def menu():
         if test_mode("Menu"):
             print("\nVeuillez renseigner un jeu valide.")
 
+def creer_grille(nb_colones,nb_ligne):
+    global grille
+    grille=[[" " for _ in range(nb_colones)] for _ in range(nb_ligne)]
 
+
+'''
 def puissance_quatre():
-    '''
     Permet de jouer au puissance quatre à deux joueurs
-    '''
-    
+
+
     tour=randint(0,1) # le joueur qui commence est designe aleatoirement
+    '''
 
 
 from random import *
