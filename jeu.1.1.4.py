@@ -43,19 +43,20 @@ def menu():
 
 def creer_grille(nb_colones,nb_ligne):
     '''
-    modifie la valeur de la variable grill. Du coup attention a creer une variable grille
+    Creer un tableau
     '''
-    global grille
-    grille=[[" " for _ in range(nb_colones)] for _ in range(nb_ligne)]
+    return [[" " for _ in range(nb_colones)] for _ in range(nb_ligne)]
 
 
-'''
+
 def puissance_quatre():
+    '''
     Permet de jouer au puissance quatre à deux joueurs
+    '''
 
+    creer_grille(9,6)
 
     tour=randint(0,1) # le joueur qui commence est designe aleatoirement
-    '''
 
 
 from random import *
