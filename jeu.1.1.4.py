@@ -52,7 +52,9 @@ def puissance_quatre():
     '''
     Permet de jouer au puissance quatre à deux joueurs
     '''
-    
+
+    creer_grille(9,6)
+
     tour=randint(0,1) # le joueur qui commence est designe aleatoirement
 
 
