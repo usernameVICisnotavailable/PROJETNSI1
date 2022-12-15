@@ -2,6 +2,10 @@
 from random import *
 
 
+###################################### Menu ######################################
+liste_jeu=["Morpion"]
+mode="Menu"
+
 
 def def_mode(valeur):
     '''Change la valeur de mode pour la définir comme celle du menu'''
@@ -17,31 +21,35 @@ que celle qui est demandee'''
     return mode==valeur
 
 
-def test_def_mode_jeu_str():
-    '''associe une valeur à mode en fonction de la si
-la valeur d'entree_jeu est dans la liste des jeux'''
-    global mode
-    
-    if entree_jeu in liste_jeu: # si le jeu entrée est dans la liste de jeux
-        def_mode(entree_jeu) # le nom du jeu devient le mode
-
     
 def menu():
-    '''Menu principale dans lequel on choisit le jeu auquel on va jouer'''
+    '''
+        Menu principale
+    '''
     assert test_mode("Menu") #vérifie qu'on est bien en mode menu
+    
     global mode, entree_jeu # comme la valeur du mode va etre modifie. Attention si on oublie entree_jeu, ça ne marche pas car cette valeur est utlisé dans les autres fonctions (je ne comprends pas bien)
     
-    print("Menu :\nJeux disponibles :")
-    #affiche tout les jeux disponibles :
-    for jeu in liste_jeu:
-        print(f"- {jeu}")
 
-    #Change le mode en fonction du texte entree
-    while test_mode("Menu"):
-        #les joueurs entre le jeu auquel il veulent jouer :
-        entree_jeu=str(input("Ecrivez le jeux auquel vous voulez jouer comme écrit ci-dessus : "))
+def menu_affichage():
+    '''
+        Liste les jeux disponibles (dans liste_jeu)
+    '''
+    print("Menu :\nJeux disponibles :")
+    for jeu in liste_jeu:
+        print(f" - {jeu}")
+
+def menu_choisir_jeu():
+    '''
+        Change le mode en fonction du texte entre
+    '''
+    global entree_jeu, mode
+    while mode=="Menu":
+        # les utilisateurs entrent le jeu auquel ils veulent jouer :
+        entree_jeu = str(input("Ecrivez le jeux auquel vous voulez jouer comme écrit ci-dessus : "))
         #Si le nom est valide, on change de mode, sinon on redemande
-        test_def_mode_jeu_str()
+        if entree_jeu in liste_jeu: # si le jeu entrée est dans la liste de jeux
+            def_mode(entree_jeu) # le nom du jeu devient le mode
         if test_mode("Menu"):
             print("\nVeuillez renseigner un jeu valide.")
 
@@ -63,8 +71,6 @@ def puissance_quatre():
 
 
 
-liste_jeu=["Morpion"]
-mode="Menu"
-menu()
+
 
 # ------------------------------------------ Morpion ------------------------------------------
