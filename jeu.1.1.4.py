@@ -2,7 +2,7 @@
 from random import *
 
 #################################### Menu ######################################
-liste_jeu=["Menu","Morpion","Chene contre Sapin","Puissance Quatre"]
+liste_jeu=["Menu","Morpion","Chenes contre Sapins","Puissance Quatre"]
 mode="Menu"
 
 def menu():
@@ -12,7 +12,14 @@ def menu():
     assert mode=="Menu"
         
     menu_affichage()
-    print(f"Vous avez choisi de jouer a {menu_choisir_jeu()} : \n")
+    menu_choisir_jeu()
+    print(f"Vous avez choisi de jouer a {mode} : \n")
+    if mode==liste_jeu[1]: # liste_jeu[x] et non pas "NOM_DU_JEU" pour que les noms des jeux puissent être modifiés dans liste_jeu sans causer de problèmes
+        pass #rentrer ici (à la place de pass) le nom de la variable principale de votre jeu afin que celui ci soit executé
+    elif mode==liste_jeu[2]:
+        chene_contre_sapin()
+    elif mode==liste_jeu[3]:
+        pass #rentrer ici (à la place de pass) le nom de la variable principale de votre jeu afin que celui ci soit executé
 
 
 def menu_affichage():
@@ -40,7 +47,7 @@ def menu_choisir_jeu():
         if entree_jeu <= len(liste_jeu) and entree_jeu >= 0:
             mode=liste_jeu[entree_jeu]                                 # le nom du jeu devient le mode
         if mode=="Menu":                                    # On redemmande le mode
-            print("\nVeuillez renseigner un jeu valide.")
+            print(f"\nVeuillez renseigner un jeu (chiffre de 1 à {len(liste_jeu)-1})") 
     return mode
 
 
@@ -58,10 +65,32 @@ def menu_choisir_jeu():
 
 
 # ------------------------------------ Chene contre sapin ------------------------------------
+# VLP :
+
+def chene_contre_sapin():
+    global ccs_end
+    ccs_end=False
+    ccs_quadrillage(5,5)
+    ccs_jeu()
+
+def ccs_quadrillage(nb_colonnes,nb_lignes):
+    global ccs_case
+    ccs_case=[["-" for _ in range(nb_colonnes)] for _ in range(nb_lignes)]
+    [print(ccs_case[i]) for i in range(nb_lignes)]
+
+def ccs_jeu():
+    global ccs_pion,ccs_joueur
+    ccs_joueur={1:"Joueur1",2:"Joueur2"}
+    ccs_pion={"joueur1":"X","joueur2":"O"}
+    azer={1:2,2:1}
+    ccs_tour_joueur=1
+    while not end:
+        ccs_tour(ccs_joueur[ccs_tour_joueur])
+        ccs_tour_joueur=azer[ccs_tour_joueur]
 
 
-
-
+def ccs_tour():
+    ccs_case[int(input("ligne : "))][int(input("colonne : "))]=ccs_pion
 
 # ------------------------------------------ Morpion ------------------------------------------
 
