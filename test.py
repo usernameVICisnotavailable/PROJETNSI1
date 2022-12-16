@@ -1,9 +1,3 @@
-mo=0
-def hin():
-    blub()
-
-def blub():
-    global mo
-    mo=1
-
-hin()
+listt=[1,2,3,4]
+assert listt[4]
+print(listt[4])

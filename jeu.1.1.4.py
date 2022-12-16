@@ -2,15 +2,17 @@
 from random import *
 
 #################################### Menu ######################################
-    
+liste_jeu=["Menu","Morpion","Chene contre Sapin","Puissance Quatre"]
+mode="Menu"
+
 def menu():
     '''
         Menu principale
     '''
-    assert mode=="Menu" #vérifie qu'on est bien en mode menu
+    assert mode=="Menu"
         
     menu_affichage()
-    menu_choisir_jeu()
+    print(f"Vous avez choisi de jouer a {menu_choisir_jeu()} : \n")
 
 
 def menu_affichage():
@@ -18,24 +20,28 @@ def menu_affichage():
         Liste les jeux disponibles (dans liste_jeu)
     '''
     print("Menu :\nJeux disponibles :")
+    compteur=0
     for jeu in liste_jeu:
-        print(f" - {jeu}")
+        print(f" - {compteur} : {jeu}")
+        compteur+=1
 
 def menu_choisir_jeu():
     '''
         Entree : jeu entree via l'input
         Change le mode en fonction du texte entre
     '''
-    global mode, entree_jeu # comme la valeur du mode va etre modifie. Attention si on oublie entree_jeu, ça ne marche pas car cette valeur est utlisé dans les autres fonctions (je ne comprends pas bien)
-    
+    global mode, entree_jeu 
+
     while mode=="Menu":
         # les utilisateurs entrent le jeu auquel ils veulent jouer :
-        entree_jeu = str(input("Ecrivez le jeux auquel vous voulez jouer comme écrit ci-dessus : "))
-        #Si le nom est valide, on change de mode, sinon on redemande
-        if entree_jeu in liste_jeu: # si le jeu entrée est dans la liste de jeux
-            mode=entree_jeu # le nom du jeu devient le mode
-        if mode=="Menu":
+        entree_jeu = int(input("Ecrivez le numéro correspondant au mode choisi : \n"))
+        #entree_jeu = str(input("Ecrivez le jeux auquel vous voulez jouer comme écrit ci-dessus : "))
+        #if entree_jeu in liste_jeu:                         # si le jeu entrée est dans la liste de jeux
+        if entree_jeu <= len(liste_jeu) and entree_jeu >= 0:
+            mode=liste_jeu[entree_jeu]                                 # le nom du jeu devient le mode
+        if mode=="Menu":                                    # On redemmande le mode
             print("\nVeuillez renseigner un jeu valide.")
+    return mode
 
 
 # ------------------------------------ Puissance-Quatre ------------------------------------
@@ -59,6 +65,7 @@ def menu_choisir_jeu():
 
 # ------------------------------------------ Morpion ------------------------------------------
 
-liste_jeu=["Morpion"]
-mode="Menu"
+
+
+# ---------------------------------------------------------------------------------------------
 menu()
