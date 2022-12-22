@@ -79,18 +79,33 @@ def ccs_quadrillage(nb_colonnes,nb_lignes):
     [print(ccs_case[i]) for i in range(nb_lignes)]
 
 def ccs_jeu():
-    global ccs_pion,ccs_joueur
-    ccs_joueur={1:"Joueur1",2:"Joueur2"}
-    ccs_pion={"joueur1":"X","joueur2":"O"}
+    global ccs_pion
+    #ccs_joueur={1:"joueur1",2:"joueur2"}
+    ccs_pion={1:"X",2:"O"}
     azer={1:2,2:1}
     ccs_tour_joueur=1
-    while not end:
-        ccs_tour(ccs_joueur[ccs_tour_joueur])
+    while not ccs_end:
+        ccs_tour(ccs_tour_joueur)
         ccs_tour_joueur=azer[ccs_tour_joueur]
 
 
-def ccs_tour():
-    ccs_case[int(input("ligne : "))][int(input("colonne : "))]=ccs_pion
+def ccs_tour(ccs_tour_joueur):
+    print(f"C'est au tour du Joueur {ccs_tour_joueur}")
+    #ccs_entree_ligne,ccs_entree_colonne=int(input("ligne : "))-1,int(input("colonne : "))-1
+    ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1)
+    while True:
+        if ccs_position_pion in [ccs_case[i] for i in range(len(ccs_case))]:
+            print('hey !') 
+            ####################### JE M ARRETE LA, IL FAUT JUSTE FINIR LA PARTIE QUI VERIFIE SI IL N'Y A PAS DEJA UN PION DANS LE TABLEAU QUAND LE JOUEUR POSE SON PION
+        else:
+            break
+    ccs_placer_pion(ccs_position_pion,ccs_pion[ccs_tour_joueur])
+    [print(ligne) for ligne in ccs_case]
+
+def ccs_placer_pion(ccs_position_pion,ccs_pion_joueur):
+    ccs_case[ccs_position_pion[0]][ccs_position_pion[1]]=ccs_pion_joueur
+
+
 
 # ------------------------------------------ Morpion ------------------------------------------
 
