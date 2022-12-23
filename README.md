@@ -15,5 +15,6 @@ VLP Réorganisation et amélioration du menu (dont choix du jeu par numéro) (16
     Réflexions et création de schémas sur la stratégie/structure à adopter pour réaliser le Chencontre    Sapin (brainstorming)    (16/12/22 21:10-->00:35)
 
 VLP Mise en place du jeu tour par tour avec ajout d'un pion différent pour les deux joueurs à chaque tour dans la       
-    grille  de jeu (tableau) (23/12/22 22:45-->23:58)
-    1.1.4 : CCS : ajout : Pose de deux pions à entourer au premier tour("jeunes pousses", symbolisées par une étoile "*"), condition : doivent être adjacentes 
+    grille  de jeu (tableau)                                                                (22/12/22 22:45-->23:58)
+    1.1.4 : CCS : ajout : Pose de deux pions à entourer au premier tour("jeunes pousses", symbolisées par une étoile "*"), condition : doivent être adjacentes                                               (23/12/22 Matin)
+    1.1.4 : CCS : réorganisations mineures et réflexions sur la démarche à adopter pour déterminer quand la partie est finie                                                                                   (23/12/22 22:23-->23:17)
