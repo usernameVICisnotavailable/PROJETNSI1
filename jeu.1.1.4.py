@@ -67,19 +67,23 @@ def menu_choisir_jeu():
 # ------------------------------------ Chene contre sapin ------------------------------------
 # VLP :
 
-def chene_contre_sapin():
-    global ccs_end
+def chene_contre_sapin():                           # Fonction principale
+    global ccs_end                                  # Variable qui permet de déterminer quand la partie est finie (si end=True --> Fin de partie)
     ccs_end=False
     ccs_quadrillage(5,5)
     ccs_jeu()
+    assert ccs_end==True
+    print(f"\n------- Le Joueur {ccs_tour_joueur} a gagne, Bien Joue !! -------\n")
 
+# ------------------------------------------------
 def ccs_quadrillage(nb_colonnes,nb_lignes):
     global ccs_case
     ccs_case=[["-" for _ in range(nb_colonnes)] for _ in range(nb_lignes)]
     [print(ccs_case[i]) for i in range(nb_lignes)]
 
+# ------------------------------------------------
 def ccs_jeu():
-    global ccs_pion,ccs_position_souche
+    global ccs_pion,ccs_position_souche,ccs_end,ccs_tour_joueur
     #ccs_joueur={1:"joueur1",2:"joueur2"}
     ccs_pion={0:"*",1:"X",2:"O"}
     ccs_changer_tour={1:2,2:1}
@@ -87,9 +91,11 @@ def ccs_jeu():
     ccs_position_souche=[(1,1),(1,2)]
     print("Veuillez placer deux jeunes pousses d'arbre adjacentes :")
     [ccs_tour(t,True) for t in range(1,3)]
-    while not ccs_end:
+    while ccs_end==False:
         ccs_tour(ccs_tour_joueur,False)
         ccs_tour_joueur=ccs_changer_tour[ccs_tour_joueur]
+        if input('La partie est-elle finie ? Tapez "O" pour validez, sinon pressez ENTER : ')=="O":
+            ccs_end=True
 
 
 def ccs_tour(ccs_tour_joueur,ccs_premiertour):
@@ -116,7 +122,6 @@ def ccs_tour(ccs_tour_joueur,ccs_premiertour):
 
 def ccs_placer_pion(ccs_position_pion,ccs_pion_joueur):
     ccs_case[ccs_position_pion[0]][ccs_position_pion[1]]=ccs_pion_joueur
-
 
 
 # ------------------------------------------ Morpion ------------------------------------------
