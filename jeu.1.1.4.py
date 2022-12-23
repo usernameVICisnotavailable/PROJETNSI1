@@ -79,27 +79,39 @@ def ccs_quadrillage(nb_colonnes,nb_lignes):
     [print(ccs_case[i]) for i in range(nb_lignes)]
 
 def ccs_jeu():
-    global ccs_pion
+    global ccs_pion,ccs_position_souche
     #ccs_joueur={1:"joueur1",2:"joueur2"}
-    ccs_pion={1:"X",2:"O"}
-    azer={1:2,2:1}
+    ccs_pion={0:"*",1:"X",2:"O"}
+    ccs_changer_tour={1:2,2:1}
     ccs_tour_joueur=1
+    ccs_position_souche=[(1,1),(1,2)]
+    print("Veuillez placer deux jeunes pousses d'arbre adjacentes :")
+    [ccs_tour(t,True) for t in range(1,3)]
     while not ccs_end:
-        ccs_tour(ccs_tour_joueur)
-        ccs_tour_joueur=azer[ccs_tour_joueur]
+        ccs_tour(ccs_tour_joueur,False)
+        ccs_tour_joueur=ccs_changer_tour[ccs_tour_joueur]
 
 
-def ccs_tour(ccs_tour_joueur):
-    print(f"C'est au tour du Joueur {ccs_tour_joueur}")
+def ccs_tour(ccs_tour_joueur,ccs_premiertour):
+    print(f"\nC'est au tour du Joueur {ccs_tour_joueur}")
     #ccs_entree_ligne,ccs_entree_colonne=int(input("ligne : "))-1,int(input("colonne : "))-1
-    ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1)
-    while True:
-        if ccs_position_pion in [ccs_case[i] for i in range(len(ccs_case))]:
-            print('hey !') 
-            ####################### JE M ARRETE LA, IL FAUT JUSTE FINIR LA PARTIE QUI VERIFIE SI IL N'Y A PAS DEJA UN PION DANS LE TABLEAU QUAND LE JOUEUR POSE SON PION
-        else:
-            break
-    ccs_placer_pion(ccs_position_pion,ccs_pion[ccs_tour_joueur])
+    ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1)               # tuple(LIGNE,COLONNE)
+    if ccs_case[ccs_position_pion[0]][ccs_position_pion[1]] != "-":
+        print("\nVeuillez saisir un emplacement vide !")
+        ccs_tour(ccs_tour_joueur,ccs_premiertour)
+        return
+    if ccs_premiertour:
+        if ccs_tour_joueur==1:
+            ccs_position_souche[0]=ccs_position_pion
+        if ccs_tour_joueur==2:
+            if not ((abs(ccs_position_souche[0][0]-ccs_position_pion[0])==1 and (ccs_position_souche[0][1]-ccs_position_pion[1])==0) ^ ((ccs_position_souche[0][0]-ccs_position_pion[0])==0 and abs(ccs_position_souche[0][1]-ccs_position_pion[1])==1)):
+                print("La deuxieme jeune pousse n'est pas adjacente a la premiere !")
+                ccs_tour(ccs_tour_joueur,ccs_premiertour)
+                return
+            ccs_position_souche[1]=ccs_position_pion
+        ccs_placer_pion(ccs_position_pion,ccs_pion[0])
+    else:
+        ccs_placer_pion(ccs_position_pion,ccs_pion[ccs_tour_joueur])
     [print(ligne) for ligne in ccs_case]
 
 def ccs_placer_pion(ccs_position_pion,ccs_pion_joueur):
