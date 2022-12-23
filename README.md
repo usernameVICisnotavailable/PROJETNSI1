@@ -16,4 +16,4 @@ VLP Réorganisation et amélioration du menu (dont choix du jeu par numéro) (16
 
 VLP Mise en place du jeu tour par tour avec ajout d'un pion différent pour les deux joueurs à chaque tour dans la       
     grille  de jeu (tableau) (23/12/22 22:45-->23:58)
-    
+    1.1.4 : CCS : ajout : Pose de deux pions à entourer au premier tour("jeunes pousses", symbolisées par une étoile "*"), condition : doivent être adjacentes 
