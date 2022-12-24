@@ -20,4 +20,4 @@ VLP Mise en place du jeu tour par tour avec ajout d'un pion différent pour les 
     1.1.4 : CCS : réorganisations mineures et réflexions sur la démarche à adopter pour déterminer quand la partie est finie                                                                                   (23/12/22 22:23-->23:17)
     1.1.4 : CCS : Modifications mineures sur la structure et ajouts concernanat la fin de la partie 
                                                                                             (24/12/22 12:26-->13:12)
-    1.1.4 : CCS : Documentation et ajout de commentaires                                    (24/12/22 14:28-->15h11)
+    1.1.4 : CCS : Documentation et ajout de commentaires, correction de problemes mineurs   (24/12/22 14:28-->15h23)
