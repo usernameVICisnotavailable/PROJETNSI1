@@ -72,14 +72,16 @@ def chene_contre_sapin():
         Fonction principale
         NB : "ccs_" (pour Chenes Contre Sapins) devant chaque appelations pour ne pas poser de problemes avec les autres jeux
     '''
+    global mode
     global ccs_fin                                  # Variable qui permet de déterminer quand la partie est finie (si end=True --> Fin de partie)
     ccs_fin=False
     ccs_regle_du_jeu(input('Voulez-vous prendre connaissance des regles du Chene Contre Sapin ? Si oui tapez "O" \n'))
-    ccs_quadrillage(input("Choisissez le nombre de lignes du quadrillage : "),input("Choisissez le nombre de colonnes du quadrillage : "))           # Creation d''un tableau
+    ccs_quadrillage(int(input("Choisissez le nombre de colonnes du quadrillage : ")),int(input("Choisissez le nombre de lignes du quadrillage : ")))           # Creation d''un tableau
     ccs_jeu()
     assert ccs_fin==True
     print(f"\n------- Le Joueur {ccs_tour_joueur} gagne, Bien Joue !! -------\n")
     if input('"Voulez-vous revenir au menu principal ? Tapez "O" pour validez, ou ENTER pour arreter : ')=="O":
+        mode="Menu"
         menu()                                      # Quand le jeu est fini, on peut revenir au menu avec tous les jeux
 
 # ------------------------------------------------
@@ -129,7 +131,7 @@ def ccs_tour(ccs_tour_joueur,ccs_premiertour):
         Entree : quel joueur joue a ce tour et si c'est le premier tour (au premier tour les jeunes poussent sont placées)
     '''
     print(f"\nC'est au tour du Joueur {ccs_tour_joueur}") 
-    
+
     #ccs_entree_ligne,ccs_entree_colonne=int(input("ligne : "))-1,int(input("colonne : "))-1
     ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1) # tuple(LIGNE,COLONNE) qui définit la position du pion a inserer dans le quadrillage
     if ccs_case[ccs_position_pion[0]][ccs_position_pion[1]] != "-":         # Sl'emplacement dans le quadrillage est deja prit par un pion : 
@@ -163,6 +165,7 @@ def ccs_fin_partie():
         NB : Le jeu de Chene Contre Sapin est produit de notre invention, la determination par analyse qui se fait 
         assez facilement visuellement est cependant plus complexe a coder et serait assez long. Nous avons donc convenu que l'analyse se ferait par l'utilisateur
     '''
+    global ccs_fin
     if input('La partie est-elle finie ? Tapez "O" pour validez, sinon pressez ENTER : ')=="O":
         ccs_fin=True
     
