@@ -24,3 +24,5 @@ VLP : Lien vers la vidéo sur GIT : https://www.youtube.com/watch?v=gp_k0UVOYMw&
         → jalons
         → répartition du travail
         → communication avec le professeur
+       
+Arthur Yvernault : 27 décembre 2022 : puissance 4 opérationel, amélioration du programe de base.
