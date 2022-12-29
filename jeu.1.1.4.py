@@ -76,13 +76,51 @@ def chene_contre_sapin():
     global ccs_fin                                  # Variable qui permet de déterminer quand la partie est finie (si end=True --> Fin de partie)
     ccs_fin=False
     ccs_regle_du_jeu(input('Voulez-vous prendre connaissance des regles du Chene Contre Sapin ? Si oui tapez "O" \n'))
-    ccs_quadrillage(int(input("Choisissez le nombre de colonnes du quadrillage : ")),int(input("Choisissez le nombre de lignes du quadrillage : ")))           # Creation d''un tableau
+    global ccs_nb_lignes,ccs_nb_colonnes
+    ccs_nb_lignes,ccs_nb_colonnes=ccs_entree("Choisissez le nombre de lignes du quadrillage : ",int,"Vous devez saisir un nomre entier : "),ccs_entree("Choisissez le nombre de colonnes du quadrillage : ",int,"Vous devez saisir un nomre entier : ")
+    #ccs_quadrillage(int(input("Choisissez le nombre de colonnes du quadrillage : ")),int(input("Choisissez le nombre de lignes du quadrillage : ")))           # Creation d''un tableau
+    ccs_quadrillage(ccs_nb_lignes,ccs_nb_colonnes)
     ccs_jeu()
     assert ccs_fin==True
     print(f"\n------- Le Joueur {ccs_tour_joueur} gagne, Bien Joue !! -------\n")
     if input('"Voulez-vous revenir au menu principal ? Tapez "O" pour validez, ou ENTER pour arreter : ')=="O":
         mode="Menu"
         menu()                                      # Quand le jeu est fini, on peut revenir au menu avec tous les jeux
+
+# ------------------------------------------------
+def ccs_entree(message,expectation,erreur="Veuillez saisir une valeur valide : ",mini=None,maxi=None):
+    '''
+        Verifie que la valeur entrée respecte la demande :
+        Entree: message : Demande textuelle a afficher (dans l'input)
+                expectation : type de valeur attendue (ex: int), elle sont referencees dans le dictionnaire ccs_caracteres
+                mini : valeur minimale acceptee de la valeur (facultatif)
+                maxi : valeur maximale accepetee de la valeur (facultatif)
+                erreur : message d'erreur supplémentaire (facultatif)
+        Sortie : la valeur verifiee saisie par l'utilisateur
+    '''
+    ccs_caracteres={int:{"nom":"un nombre entier","min":ord('0'),"max":ord('9')}}   # Capacite d'etendre ccs_entree a la verification de la saisie de lettres avec ord()
+    if expectation in list(ccs_caracteres.keys()):                      # La fonction peut-elle geree la verification de ce type de ccs_caracteres ?
+        while True:
+            ccs_question = input(message)
+            for i in range(len(ccs_question)):
+                if ord(ccs_question[i]) < ccs_caracteres[expectation]["min"] or ord(ccs_question[i]) > ccs_caracteres[expectation]["max"]:
+                    #print(f"Veuillez saisir {ccs_caracteres[expectation]["nom"]} s'il vous plait : ")
+                    #print("Veuillez saisir ", ccs_caracteres[expectation]["nom"], " s'il vous plait : \n", end="")
+                    print(erreur)
+                    break
+                elif (mini!=None and maxi!=None) and (int(ccs_question)<int(mini) or int(ccs_question)>int(maxi)):
+                    print(erreur,'cheeeeeeeeeeeeeeeeeeeeeeeeeh')
+                    break
+                #print(i,len(ccs_question))
+                #elif i+1==len(ccs_question):
+                #    return expectation(ccs_question)
+            
+                if len(ccs_question)==i+1:
+                    return expectation(ccs_question)
+            #ccs_question=input(message)
+        #return ccs_question
+    else:
+        return input(expectation)                                       # Par defaut sans verification 
 
 # ------------------------------------------------
 def ccs_regle_du_jeu(ccs_choix):
@@ -95,7 +133,7 @@ def ccs_regle_du_jeu(ccs_choix):
         input("\nPressez enter pour continuer")
 
 # ------------------------------------------------
-def ccs_quadrillage(nb_colonnes,nb_lignes):
+def ccs_quadrillage(nb_lignes,nb_colonnes):
     '''
         Creation et affichage d'un quadrillage (tableau a deux dimensions) 
         Entree : Nombre de lignes et de colonnes (choisi par l'utilisateur)
@@ -109,17 +147,19 @@ def ccs_jeu():
     '''
         Fonction secondaire, fonctionnement et execution du jeu
     '''
-    global ccs_pion,ccs_position_souche,ccs_fin,ccs_tour_joueur
+    global ccs_pion,ccs_position_souche,ccs_fin,ccs_tour_joueur,ccs_nb_tour
     #ccs_joueur={1:"joueur1",2:"joueur2"}
     ccs_pion={0:"*",1:"X",2:"O"}                        # Dictionnaire faisant correspondre son pion (caractere) au numero du joueur 
     ccs_changer_tour={1:2,2:1}                          # Permet de faire alterner les tours entre les joueurs
     ccs_tour_joueur=1                                   # le joueur 1 commence"
+    ccs_nb_tour=0                                       # Compteur du nombre de tours (le placement des jeunes pousses ne compte pas dedans)
     
     ccs_position_souche=[(1,1),(1,2)]                   # Position par défaut des jeunes pousses
     print("Veuillez placer deux jeunes pousses d'arbre adjacentes :")
     [ccs_tour(t,True) for t in range(1,3)]              # 2 permiers tours : les joueurs placent les 2 jeunes pousses
 
     while not ccs_fin:                                  # Boucle qui s'execute juqusqu'à le fin du jeu, chaque repetition correspond a 1 tour
+        ccs_nb_tour+=1
         ccs_tour(ccs_tour_joueur,False)                 # 1 tour
         ccs_tour_joueur=ccs_changer_tour[ccs_tour_joueur] # On change de joueur pour le prochain tour
         ccs_fin_partie()                 # Verifie si la partie est finie
@@ -133,7 +173,8 @@ def ccs_tour(ccs_tour_joueur,ccs_premiertour):
     print(f"\nC'est au tour du Joueur {ccs_tour_joueur}") 
 
     #ccs_entree_ligne,ccs_entree_colonne=int(input("ligne : "))-1,int(input("colonne : "))-1
-    ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1) # tuple(LIGNE,COLONNE) qui définit la position du pion a inserer dans le quadrillage
+    #ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1) # tuple(LIGNE,COLONNE) qui définit la position du pion a inserer dans le quadrillage
+    ccs_position_pion=(ccs_entree("ligne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",1,ccs_nb_lignes)-1,ccs_entree("colonne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",1,ccs_nb_colonnes)-1)
     if ccs_case[ccs_position_pion[0]][ccs_position_pion[1]] != "-":         # Sl'emplacement dans le quadrillage est deja prit par un pion : 
         print("\nVeuillez saisir un emplacement vide !")                    
         ccs_tour(ccs_tour_joueur,ccs_premiertour)                           # On recommence le tour avec le meme joueur
@@ -166,8 +207,9 @@ def ccs_fin_partie():
         assez facilement visuellement est cependant plus complexe a coder et serait assez long. Nous avons donc convenu que l'analyse se ferait par l'utilisateur
     '''
     global ccs_fin
-    if input('La partie est-elle finie ? Tapez "O" pour validez, sinon pressez ENTER : ')=="O":
-        ccs_fin=True
+    if ccs_nb_tour==10:
+        if input('La partie est-elle finie ? Tapez "O" pour validez, sinon pressez ENTER : ')=="O":
+            ccs_fin=True
     
 
 # ------------------------------------------ Morpion ------------------------------------------
