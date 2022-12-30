@@ -82,43 +82,48 @@ def chene_contre_sapin():
     ccs_quadrillage(ccs_nb_lignes,ccs_nb_colonnes)
     ccs_jeu()
     assert ccs_fin==True
-    print(f"\n------- Le Joueur {ccs_tour_joueur} gagne, Bien Joue !! -------\n")
+    ccs_gagnant=ccs_entree(f"\n------- Le Joueur {ccs_tour_joueur} a-t-il bien gagne ? (O/N) -------\n","majuscule","Veuillez saisir O pour OUI ou N pour NON : ",('O','N'))
+    if ccs_gagnant=='O':
+        print(f"\n------- Bien joue a toi Joueur {ccs_tour_joueur} !! -------\n")
+    elif ccs_gagnant=='N':                          # Le dernier joueur qui a joue peut avoir donne la victoire a son edversaire par sotise
+        print(f"\n------- Joueur {ccs_tour_joueur}, tu es nul, c'est impardonnable ! -------\n")
     if input('"Voulez-vous revenir au menu principal ? Tapez "O" pour validez, ou ENTER pour arreter : ')=="O":
         mode="Menu"
         menu()                                      # Quand le jeu est fini, on peut revenir au menu avec tous les jeux
 
 # ------------------------------------------------
-def ccs_entree(message,expectation,erreur="Veuillez saisir une valeur valide : ",mini=None,maxi=None):
+def ccs_entree(message,expectation,erreur="Veuillez saisir une valeur valide : ",autorises=None):
     '''
         Verifie que la valeur entrée respecte la demande :
         Entree: message : Demande textuelle a afficher (dans l'input)
-                expectation : type de valeur attendue (ex: int), elle sont referencees dans le dictionnaire ccs_caracteres
-                mini : valeur minimale acceptee de la valeur (facultatif)
-                maxi : valeur maximale accepetee de la valeur (facultatif)
+                expectation : int/majuscule : type de valeur attendue, elle sont referencees dans le dictionnaire ccs_caracteres
                 erreur : message d'erreur supplémentaire (facultatif)
+                (mini,maxi):expectation=int : valeur minimale et maximale accepetee de la valeur (facultatif)
+                            expectation=lettre/majuscule ...etc : tuple de toutes les lettres acceptees
         Sortie : la valeur verifiee saisie par l'utilisateur
     '''
-    ccs_caracteres={int:{"nom":"un nombre entier","min":ord('0'),"max":ord('9')}}   # Capacite d'etendre ccs_entree a la verification de la saisie de lettres avec ord()
+    ccs_caracteres={int:{"nom":"un nombre entier","min":ord('0'),"max":ord('9')},"majuscule":{"nom":"une majuscule","min":ord('A'),"max":ord('Z')}}   # Capacite d'etendre ccs_entree a la verification de la saisie de lettres avec ord()
     if expectation in list(ccs_caracteres.keys()):                      # La fonction peut-elle geree la verification de ce type de ccs_caracteres ?
-        while True:
-            ccs_question = input(message)
-            for i in range(len(ccs_question)):
-                if ord(ccs_question[i]) < ccs_caracteres[expectation]["min"] or ord(ccs_question[i]) > ccs_caracteres[expectation]["max"]:
-                    #print(f"Veuillez saisir {ccs_caracteres[expectation]["nom"]} s'il vous plait : ")
-                    #print("Veuillez saisir ", ccs_caracteres[expectation]["nom"], " s'il vous plait : \n", end="")
+        if expectation==int:                                            # La valeur demandee est un entier
+            while True:
+                ccs_question = input(message)
+                for i in range(len(ccs_question)):                      # Pour tous les caracteres de la valeur saisie
+                    if ord(ccs_question[i]) < ccs_caracteres[expectation]["min"] or ord(ccs_question[i]) > ccs_caracteres[expectation]["max"]:              # print(erreur) car ce n'est pas un caractere
+                        print(erreur)
+                        break
+                    elif autorises!=None and (int(ccs_question)<int(autorises[0]) or int(ccs_question)>int(autorises[1])):                                   # Trop grand ou trop petit
+                        print(erreur,'cheeeeeeeeeeeeeeeeeeeeeeeeeh')
+                        break
+                    if len(ccs_question)==i+1:                          # On est arrive jusqu'a la fin du mo sans erreur, donc c'est bon
+                        return expectation(ccs_question)
+        
+        if expectation=="majuscule":                                     # La valeur attendue est une lettre majuscule
+            while True:
+                ccs_question = input(message)
+                if ccs_question in autorises:                            # On s'assure qu'elle est dans la liste des majuscules autorisees
+                    return ccs_question
+                else:
                     print(erreur)
-                    break
-                elif (mini!=None and maxi!=None) and (int(ccs_question)<int(mini) or int(ccs_question)>int(maxi)):
-                    print(erreur,'cheeeeeeeeeeeeeeeeeeeeeeeeeh')
-                    break
-                #print(i,len(ccs_question))
-                #elif i+1==len(ccs_question):
-                #    return expectation(ccs_question)
-            
-                if len(ccs_question)==i+1:
-                    return expectation(ccs_question)
-            #ccs_question=input(message)
-        #return ccs_question
     else:
         return input(expectation)                                       # Par defaut sans verification 
 
@@ -174,7 +179,7 @@ def ccs_tour(ccs_tour_joueur,ccs_premiertour):
 
     #ccs_entree_ligne,ccs_entree_colonne=int(input("ligne : "))-1,int(input("colonne : "))-1
     #ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1) # tuple(LIGNE,COLONNE) qui définit la position du pion a inserer dans le quadrillage
-    ccs_position_pion=(ccs_entree("ligne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",1,ccs_nb_lignes)-1,ccs_entree("colonne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",1,ccs_nb_colonnes)-1)
+    ccs_position_pion=(ccs_entree("ligne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",(1,ccs_nb_lignes))-1,ccs_entree("colonne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",(1,ccs_nb_colonnes))-1)
     if ccs_case[ccs_position_pion[0]][ccs_position_pion[1]] != "-":         # Sl'emplacement dans le quadrillage est deja prit par un pion : 
         print("\nVeuillez saisir un emplacement vide !")                    
         ccs_tour(ccs_tour_joueur,ccs_premiertour)                           # On recommence le tour avec le meme joueur
@@ -207,7 +212,7 @@ def ccs_fin_partie():
         assez facilement visuellement est cependant plus complexe a coder et serait assez long. Nous avons donc convenu que l'analyse se ferait par l'utilisateur
     '''
     global ccs_fin
-    if ccs_nb_tour==10:
+    if ccs_nb_tour>9:
         if input('La partie est-elle finie ? Tapez "O" pour validez, sinon pressez ENTER : ')=="O":
             ccs_fin=True
     
