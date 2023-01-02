@@ -14,12 +14,12 @@ def menu():
     menu_affichage()
     menu_choisir_jeu()
     print(f"Vous avez choisi de jouer a {mode} : \n")
-    if mode==liste_jeu[1]: # liste_jeu[x] et non pas "NOM_DU_JEU" pour que les noms des jeux puissent être modifiés dans liste_jeu sans causer de problèmes
-        pass #rentrer ici (à la place de pass) le nom de la variable principale de votre jeu afin que celui ci soit executé
+    if mode==liste_jeu[1]: # liste_jeu[x] et non pas "NOM_DU_JEU" pour que les noms des jeux puissent être modifies dans liste_jeu sans causer de problèmes
+        pass #rentrer ici (a la place de pass) le nom de la variable principale de votre jeu afin que celui ci soit execute
     elif mode==liste_jeu[2]:
         chene_contre_sapin()
     elif mode==liste_jeu[3]:
-        pass #rentrer ici (à la place de pass) le nom de la variable principale de votre jeu afin que celui ci soit executé
+        pass #rentrer ici (a la place de pass) le nom de la variable principale de votre jeu afin que celui ci soit execute
 
 
 def menu_affichage():
@@ -41,13 +41,13 @@ def menu_choisir_jeu():
 
     while mode=="Menu":
         # les utilisateurs entrent le jeu auquel ils veulent jouer :
-        entree_jeu = int(input("Ecrivez le numéro correspondant au mode choisi : \n"))
-        #entree_jeu = str(input("Ecrivez le jeux auquel vous voulez jouer comme écrit ci-dessus : "))
-        #if entree_jeu in liste_jeu:                         # si le jeu entrée est dans la liste de jeux
+        entree_jeu = int(input("Ecrivez le numero correspondant au mode choisi : \n"))
+        #entree_jeu = str(input("Ecrivez le jeux auquel vous voulez jouer comme ecrit ci-dessus : "))
+        #if entree_jeu in liste_jeu:                         # si le jeu entree est dans la liste de jeux
         if entree_jeu <= len(liste_jeu) and entree_jeu >= 0:
             mode=liste_jeu[entree_jeu]                                 # le nom du jeu devient le mode
         if mode=="Menu":                                    # On redemmande le mode
-            print(f"\nVeuillez renseigner un jeu (chiffre de 1 à {len(liste_jeu)-1})") 
+            print(f"\nVeuillez renseigner un jeu (chiffre de 1 a {len(liste_jeu)-1})") 
     return mode
 
 
@@ -59,7 +59,7 @@ def chene_contre_sapin():
         NB : "ccs_" (pour Chenes Contre Sapins) devant chaque appelations pour ne pas poser de problemes avec les autres jeux
     '''
     global mode
-    global ccs_fin                                  # Variable qui permet de déterminer quand la partie est finie (si end=True --> Fin de partie)
+    global ccs_fin                                  # Variable qui permet de determiner quand la partie est finie (si end=True --> Fin de partie)
     ccs_fin=False
     ccs_regle_du_jeu(input('Voulez-vous prendre connaissance des regles du Chene Contre Sapin ? Si oui tapez "O" \n'))
     global ccs_nb_lignes,ccs_nb_colonnes
@@ -80,10 +80,10 @@ def chene_contre_sapin():
 # ------------------------------------------------
 def ccs_entree(message,expectation,erreur="Veuillez saisir une valeur valide : ",autorises=None):
     '''
-        Verifie que la valeur entrée respecte la demande :
+        Verifie que la valeur entree respecte la demande :
         Entree: message : Demande textuelle a afficher (dans l'input)
                 expectation : int/majuscule : type de valeur attendue, elle sont referencees dans le dictionnaire ccs_caracteres
-                erreur : message d'erreur supplémentaire (facultatif)
+                erreur : message d'erreur supplementaire (facultatif)
                 (mini,maxi):expectation=int : valeur minimale et maximale accepetee de la valeur (facultatif)
                             expectation=lettre/majuscule ...etc : tuple de toutes les lettres acceptees
         Sortie : la valeur verifiee saisie par l'utilisateur
@@ -145,11 +145,11 @@ def ccs_jeu():
     ccs_tour_joueur=1                                   # le joueur 1 commence"
     ccs_nb_tour=0                                       # Compteur du nombre de tours (le placement des jeunes pousses ne compte pas dedans)
     
-    ccs_position_souche=[(1,1),(1,2)]                   # Position par défaut des jeunes pousses
+    ccs_position_souche=[(1,1),(1,2)]                   # Position par defaut des jeunes pousses
     print("Veuillez placer deux jeunes pousses d'arbre adjacentes :")
     [ccs_tour(t,True) for t in range(1,3)]              # 2 permiers tours : les joueurs placent les 2 jeunes pousses
 
-    while not ccs_fin:                                  # Boucle qui s'execute juqusqu'à le fin du jeu, chaque repetition correspond a 1 tour
+    while not ccs_fin:                                  # Boucle qui s'execute juqusqu'a le fin du jeu, chaque repetition correspond a 1 tour
         ccs_nb_tour+=1
         ccs_tour(ccs_tour_joueur,False)                 # 1 tour
         ccs_tour_joueur=ccs_changer_tour[ccs_tour_joueur] # On change de joueur pour le prochain tour
@@ -159,12 +159,12 @@ def ccs_jeu():
 def ccs_tour(ccs_tour_joueur,ccs_premiertour):
     '''
         Correspond a 1 tour
-        Entree : quel joueur joue a ce tour et si c'est le premier tour (au premier tour les jeunes poussent sont placées)
+        Entree : quel joueur joue a ce tour et si c'est le premier tour (au premier tour les jeunes poussent sont placees)
     '''
     print(f"\nC'est au tour du Joueur {ccs_tour_joueur}") 
 
     #ccs_entree_ligne,ccs_entree_colonne=int(input("ligne : "))-1,int(input("colonne : "))-1
-    #ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1) # tuple(LIGNE,COLONNE) qui définit la position du pion a inserer dans le quadrillage
+    #ccs_position_pion=(int(input("ligne : "))-1,int(input("colonne : "))-1) # tuple(LIGNE,COLONNE) qui definit la position du pion a inserer dans le quadrillage
     ccs_position_pion=(ccs_entree("ligne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",(1,ccs_nb_lignes))-1,ccs_entree("colonne : ",int,"Veuillez saisir un nombre entier rentrant dans le tableau : ",(1,ccs_nb_colonnes))-1)
     if ccs_case[ccs_position_pion[0]][ccs_position_pion[1]] != "-":         # Sl'emplacement dans le quadrillage est deja prit par un pion : 
         print("\nVeuillez saisir un emplacement vide !")                    
@@ -204,20 +204,20 @@ def ccs_fin_partie():
     
 
 ##################################### Puissance 4 #####################################
-# ------------------------------------ Fonction réutilisable partout ------------------------------
+# ------------------------------------ Fonction reutilisable partout ------------------------------
 
 def grille_vide(nb_colonnes,nb_ligne):
     '''
-    renvoit un tableau vide avec le nombre de colones et de lignes renseigne qui sont indiqués
+    renvoit un tableau vide avec le nombre de colones et de lignes renseigne qui sont indiques
     '''
     assert nb_colonnes<=26
     
     #1er : ligne du haut avec les lettres de l'alphabet
-    grille_tempo=[[alphabet[i] for i in range(nb_colonnes+1)]] #+1 car il y a un trou au début 
+    grille_tempo=[[alphabet[i] for i in range(nb_colonnes+1)]] #+1 car il y a un trou au debut 
     
     #ensuitement : les autres lignes
-    for i in range(1,nb_ligne+1): #on commence à 1 car le trou a déjà été posé et +1 car tout est donc déclalé
-        #numéro de ligne puis un espace si besoin, proportioné à la longueur du plus grand numero de ligne
+    for i in range(1,nb_ligne+1): #on commence a 1 car le trou a deja ete pose et +1 car tout est donc declale
+        #numero de ligne puis un espace si besoin, proportione a la longueur du plus grand numero de ligne
         grille_tempo.append([str(i)+" "*(len(str(nb_ligne))-len(str(i)))])
         #le reste de la ligne, vide
         grille_tempo[i].extend(["_" for _ in range(nb_colonnes)])
@@ -352,15 +352,15 @@ from random import *
 def puissance_quatre():
     global alphabet, grille, mode,joueur,pions,jeu_en_cours
     '''
-    Permet de jouer au puissance quatre à deux joueurs
+    Permet de jouer au puissance quatre a deux joueurs
     '''
 
-    #création d'une liste comportant toutes les lettres de l'alphabet avec un espace proportionel à la place que prendront les caractères des numéros de ligne au début
-    #la liste sera utilisé dans la fonction afficher_grille et jouer_pion_puissance_4
+    #creation d'une liste comportant toutes les lettres de l'alphabet avec un espace proportionel a la place que prendront les caractères des numeros de ligne au debut
+    #la liste sera utilise dans la fonction afficher_grille et jouer_pion_puissance_4
     alphabet=[" "*len(str(6)),"A","B","C","D","E","F","G","H","I","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     #cree une grille vide de 9 sur 6
     grille=grille_vide(9,6)
-    #designe aléatoirement le joueur qui commence
+    #designe aleatoirement le joueur qui commence
     joueur=randint(0,1)
     pions=["O","X"]
     #indique que le jeu est en cours
@@ -396,7 +396,7 @@ def jeu_puissance_4():
 
 def jouer_pion_puissance_4(colone,caractère_joueur):
     '''
-    Pose le pion renseigne en bas de la colone renseigne dans la liste de nom grille. Donne aussi la valeur True ou False à la variable colone_valide 
+    Pose le pion renseigne en bas de la colone renseigne dans la liste de nom grille. Donne aussi la valeur True ou False a la variable colone_valide 
     '''
     global grille, colone_valide
 
