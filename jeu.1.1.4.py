@@ -51,21 +51,7 @@ def menu_choisir_jeu():
     return mode
 
 
-# ------------------------------------ Puissance-Quatre ------------------------------------
-
-#def puissance_quatre():
-    '''
-    Permet de jouer au puissance quatre à deux joueurs
-    '''
-
-  #  creer_grille(9,6)
-
-   # tour=randint(0,1) # le joueur qui commence est designe aleatoirement
-
-
-
-# ------------------------------------ Chene contre sapin ------------------------------------
-# VLP :
+##################################### Chenes contre Sapins #####################################
 
 def chene_contre_sapin():
     ''' 
@@ -217,7 +203,222 @@ def ccs_fin_partie():
             ccs_fin=True
     
 
-# ------------------------------------------ Morpion ------------------------------------------
+##################################### Puissance 4 #####################################
+# ------------------------------------ Fonction réutilisable partout ------------------------------
+
+def grille_vide(nb_colonnes,nb_ligne):
+    '''
+    renvoit un tableau vide avec le nombre de colones et de lignes renseigne qui sont indiqués
+    '''
+    assert nb_colonnes<=26
+    
+    #1er : ligne du haut avec les lettres de l'alphabet
+    grille_tempo=[[alphabet[i] for i in range(nb_colonnes+1)]] #+1 car il y a un trou au début 
+    
+    #ensuitement : les autres lignes
+    for i in range(1,nb_ligne+1): #on commence à 1 car le trou a déjà été posé et +1 car tout est donc déclalé
+        #numéro de ligne puis un espace si besoin, proportioné à la longueur du plus grand numero de ligne
+        grille_tempo.append([str(i)+" "*(len(str(nb_ligne))-len(str(i)))])
+        #le reste de la ligne, vide
+        grille_tempo[i].extend(["_" for _ in range(nb_colonnes)])
+        
+    return grille_tempo
+
+def afficher_grille(liste_grille):
+    '''
+    Affiche de belle maniere le tableau genere par la fonction grille_vide
+    '''
+    for ligne in liste_grille:
+        for valeur in ligne:
+            print(f"{valeur}|", end="")
+        print("")
+
+def test_victoire(grille,pion_teste,longueur_alignement):
+    '''
+    Renvoit True ou False si le pion renseigne on a gagne
+    '''
+    #Si quatres pions sont alignes dans quel sens que ce soit
+    return test_horizontal(pion_teste,longueur_alignement) or \
+        test_vertical(pion_teste,longueur_alignement) or test_oblique(pion_teste,longueur_alignement)
+        
+
+    # les quatre fonctions suivantes seront amenes a etre ameliorees
+def test_vertical(pion_teste,longueur_alignement):
+    '''
+    Teste si les pions sont alignes verticalement
+    '''
+    #cette variable compte les pions identiques d'affile
+    compteur_pion_aligne=0
+
+    #descend toutes les colones pour voir si il y a un alignement
+    for colone in range(len(grille[0])):
+        for ligne in grille:
+            #a chaque fois que le pion est rencontre on augmente le compteur de 1
+            if ligne[colone]==pion_teste:
+                compteur_pion_aligne+=1
+                #si l'alignement fixe est atteint True
+                if compteur_pion_aligne==longueur_alignement:
+                    return True
+            #si le pion rencontre n'est pas celui qu'on recherche le compteur retombe a 0
+            else:
+                compteur_pion_aligne=0
+    #si le test finit, on renvoit False
+    return False
+
+def test_horizontal(pion_teste,longueur_alignement):
+    '''
+    Teste si les pions sont alignes horizontalement
+    '''
+    #cette variable compte les pions identiques d'affile
+    compteur_pion_aligne=0
+    for ligne in grille:
+        for pion in ligne:
+            #a chaque fois que le pion est rencontre on augmente le compteur de 1
+            if pion==pion_teste:
+                compteur_pion_aligne+=1
+                #si l'alignement fixe est atteint True
+                if compteur_pion_aligne==longueur_alignement:
+                    return True
+            #si le pion rencontre n'est pas celui qu'on recherche le compteur retombe a 0
+            else:
+                compteur_pion_aligne=0
+    #si le test finit, on renvoit False
+    return False
+
+def test_oblique(pion_teste,longueur_alignement):
+    '''
+    Teste si les pions sont alignes obliquement
+    '''
+    global grille
+    #on parcours tout les points de la grille
+    for indice_colone in range(len(grille[0])):
+        for indice_ligne in range(len(grille)):
+            #a partir de chaque point on tire une diagonale montante et descendante puis on regarde si suffisament de pions y sont alignes
+            if soustest_oblique_descendante(indice_colone,indice_ligne,pion_teste,longueur_alignement) or soustest_oblique_montante(indice_colone,indice_ligne,pion_teste,longueur_alignement):
+                #si des points sont alignes, on renvoit True
+                return True
+    #si le test finit, on renvoit False
+    return False
+
+def soustest_oblique_descendante(x,y,pion_teste,longueur_alignement):
+    '''
+    tire une diagonale de haut en bas et de droite a gauche et voit si suffisament de pions sont alignes
+    '''
+    #cette variable compte les pions identiques d'affile
+    compteur_aligne=0
+    #tant que les x et les y sont dans la grille
+    while x<len(grille[0]) and y<len(grille):
+        #a chaque fois que le pion est rencontre on augmente le compteur de 1
+        if grille[y][x]==pion_teste:
+            compteur_aligne+=1
+            #si l'alignement fixe est atteint True
+            if compteur_aligne==longueur_alignement:
+                return True
+        #si le pion rencontre n'est pas celui qu'on recherche le compteur retombe a 0
+        else:
+            compteur_aligne=0
+        #on change de coordonees suivant une diagonale descendante
+        x+=1
+        y+=1
+    #si le test finit, on renvoit False
+    return False
+
+def soustest_oblique_montante(x,y,pion_teste,longueur_alignement):
+    '''
+    tire une diagonale de bas en haut et de droite a gauche et voit si suffisament de pions sont alignes
+    '''
+    compteur_aligne=0
+    #tant que les x et les y sont dans la grille
+    while x<len(grille[0]) and y>=0:
+        #a chaque fois que le pion est rencontre on augmente le compteur de 1
+        #si l'alignement fixe est atteint True
+        if grille[y][x]==pion_teste:
+            compteur_aligne+=1
+            if compteur_aligne==longueur_alignement:
+                return True
+        #si le pion rencontre n'est pas celui qu'on recherche le compteur retombe a 0
+        else:
+            compteur_aligne=0
+        #on change de coordonees suivant une diagonale descendante
+        x+=1
+        y-=1
+        #si le test finit, on renvoit False
+    return False
+        
+# ------------------------------------ Puissance-Quatre ------------------------------------
+
+from random import *
+
+def puissance_quatre():
+    global alphabet, grille, mode,joueur,pions,jeu_en_cours
+    '''
+    Permet de jouer au puissance quatre à deux joueurs
+    '''
+
+    #création d'une liste comportant toutes les lettres de l'alphabet avec un espace proportionel à la place que prendront les caractères des numéros de ligne au début
+    #la liste sera utilisé dans la fonction afficher_grille et jouer_pion_puissance_4
+    alphabet=[" "*len(str(6)),"A","B","C","D","E","F","G","H","I","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    #cree une grille vide de 9 sur 6
+    grille=grille_vide(9,6)
+    #designe aléatoirement le joueur qui commence
+    joueur=randint(0,1)
+    pions=["O","X"]
+    #indique que le jeu est en cours
+    jeu_en_cours=True
+
+    jeu_puissance_4()
+    
+
+def jeu_puissance_4():
+    global jeu_en_cours,pion_joueur,pions,joueur,mode
+    while jeu_en_cours:
+        afficher_grille(grille)
+        
+        #Associe un pion en fonction du joueur
+        pion_joueur=pions[joueur]
+            
+        #Demande a jouer
+        print(f"C'est au joueur {joueur} de joueur \nSon pion est : {pion_joueur}")
+        # joue
+        jouer_pion_puissance_4(input("Entrez une colone : "),pion_joueur)
+        
+        #change de joueur si la colone est valide ou redemande a jouer
+        if colone_valide:
+            joueur=(joueur+1)%len(pions)
+        else:
+            print("Veuillez renseigner une colone valide.")
+            
+        for i in range(len(pions)):
+            if test_victoire(grille,pions[i],4):
+                print(f"Le joueur {i} remporte la victoire.")
+                jeu_en_cours=False
+                mode="Menu"
+
+def jouer_pion_puissance_4(colone,caractère_joueur):
+    '''
+    Pose le pion renseigne en bas de la colone renseigne dans la liste de nom grille. Donne aussi la valeur True ou False à la variable colone_valide 
+    '''
+    global grille, colone_valide
+
+    colone=colone.upper()
+    
+    #Si la valeur est correct
+    if colone in grille[0]:
+        #on associe un indice a la lettre renseigne
+        index_colone=alphabet.index(colone)
+
+        #on parcourt la colone de bas en haut
+        for ligne in range(len(grille)-1,0,-1): #de la fin au debut sans la ligne des lettres de colones
+            #des qu'on rencontre un "_" on place le pion
+            if grille[ligne][index_colone]=="_":
+                grille[ligne][index_colone]=caractère_joueur
+                colone_valide=True
+                break
+    else:
+        colone_valide=False
+
+
+##################################### Morpion #####################################
 
 
 
