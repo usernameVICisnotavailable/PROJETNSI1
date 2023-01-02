@@ -23,7 +23,6 @@ VLP Mise en place du jeu tour par tour avec ajout d'un pion différent pour les 
     1.1.4 : CCS : Documentation et ajout de commentaires, correction de problemes mineurs   (24/12/22 14:28-->15:23)
     1.1.4 : CCS : (Modifications Hors-Ligne : ) Ajout de la fonction ccs_entree (vérification des valeurs entrées par l'utilisateur) (je me suis prit la têêêête... j'ai cru que j'allais mourir de mes erreurs) 
                                                                             (19/12/22 14:00--> 15:25 / 19:15-->00:02)
-    1.1.4 : CCS : Fin de la fonction ccs_entree (fonctionne avec les majuscules) et ajout de commentaires dans le fichier        
-
-VLP : 1.1.4 : Ajout du puissance 4 d'Arthur dans le fichier (02/01/23 12:26)
-                                                                           (30/12/22 14h50 --> 15:58)
+    1.1.4 : CCS : Fin de la fonction ccs_entree (fonctionne avec les majuscules) et ajout de commentaires dans le fichier                                                                                 (30/12/22 14h50 --> 15:58)
+VLP : 1.1.4 : Ajout du puissance 4 d'Arthur dans le fichier et remplaçage de tous les "é"/"à" par des "e"/"a" dans tout
+    le fichier                                                                              (02/01/23 12:26)
