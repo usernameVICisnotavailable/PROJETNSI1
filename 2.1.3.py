@@ -386,7 +386,95 @@ def ccs_fin_partie():
 
 
 # ------------------------------------------ Morpion ------------------------------------------
+def morpion():
+    global joueur, pions, jeu_en_cours, grille, alphabet
+    
+    #création d'une liste comportant toutes les lettres de l'alphabet avec un espace proportionel à la place que prendront les caractères des numéros de ligne au début
+    #la liste sera utilisé dans la fonction afficher_grille, case_colonne et case_ligne 
+    alphabet=[" "*len(str(6)),"A","B","C","D","E","F","G","H","I","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    
+    #Créer une grille de 3 sur 3
+    grille = grille_vide(3,3)
+    
+    #Désigne un joueur aléatoirement qui commencera 
+    joueur = randint(0,1)
+    
+    #Désigne les pions que vont avoir les joueurs
+    pions = ["O","X"]
+    
+    #Indique si le jeu est en cours
+    jeu_en_cours = True
+    
+    jeu_morpion()
+    
 
+def jeu_morpion():
+    global pions, joueur, pion_du_joueur, jeu_en_cours, mode
+    while jeu_en_cours:
+        afficher_grille(grille)
+        
+        #Associe un pion à un joueur
+        pion_du_joueur = pions[joueur]
+    
+        #Demande au joueur de jouer
+        print(f"C'est au joueur {joueur} de commencer \nLe pion qu'il l'appartient est le {pion_du_joueur}")
+
+        #Permet au joueur de jouer
+        case_colonne = input("Entrez le numéro d'une case de la colonne")
+        case_ligne = input("Entrez le numéro d'une case de la ligne")
+
+        #Donne la position du pion jouer
+        print("Vous avez joué la case ("+colonne_pose_pion+","+ligne_pose_pion+")")
+        
+        #Vérifie la colonne de la case
+        if colone_valide:
+            joueur=(joueur+1)%len(pions)
+        else:
+            print("Veuillez renseigner une colone valide.")
+        
+        #Vérifie la ligne de la case
+        if ligne_valide:
+            joueur=(joueur+1)%len(pions)
+        else:
+            print("Veuillez renseigner une ligne valide.")
+
+        #Vérifie si 3 pions identiques sont collés
+        for i in range(len(pions)):
+            if test_victoire(grille,pions[i],3):
+                print(f"Le joueur {i} remporte la victoire.")
+                jeu_en_cours=False
+                mode="Menu"
+                
+def case_colonne(colonne, caractere_joueur):
+    """
+    Vérifie si la case est libre ou non
+    """
+    global grille, colonne_valide
+
+    colonne=colonne.upper()
+    
+    #Si la valeur est correct
+    if colonne in grille[0]:
+        #on associe un indice a la lettre renseigne
+        index_colone=alphabet.index(colonne)
+
+        #On parcourt la colone de bas en haut
+        for ligne in range(len(grille)-1,0,-1): #De la fin au debut sans la ligne des lettres de colonnes
+            #des qu'on rencontre un "_" on place le pion
+            if grille[ligne][index_colonne]=="_":
+                grille[ligne][index_colonne]=caractere_joueur
+                colonne_valide=True
+                break
+    else:
+        colonne_valide=False
+
+def case_ligne(ligne):
+    """
+    Vérifie si la case est libre ou non
+    """
+    if[grille][ligne] == "_":
+        return True
+    return False    
 
 
 # ---------------------------------------------------------------------------------------------
