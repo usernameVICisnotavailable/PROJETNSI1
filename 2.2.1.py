@@ -140,8 +140,12 @@ def poser(colone,ligne,pionajouer,grillage):
     '''
     global valide
     #Donne une valeur numerale a colone
-    if ligne in (str(i) for i in range(9)):
-        ligne=int(ligne)
+    numeral=True
+    if isinstance(ligne, str):
+        for caractere in ligne:
+            numeral= (caractere in (str(i) for i in range(9))) and numeral
+        if numeral:
+            ligne=int(ligne)
     colone=colone.upper()
     if colone in grillage[0] and 0<ligne<len(grillage):
         colone=grillage[0].index(colone)
@@ -165,7 +169,6 @@ def puissance_quatre():
 
     #création d'une liste comportant toutes les lettres de l'alphabet avec un espace proportionel à la place que prendront les caractères des numéros de ligne au début
     #la liste sera utilisé dans la fonction afficher_grille et jouer_pion_puissance_4
-    #alphabet=[" "*len(str(6)),"A","B","C","D","E","F","G","H","I","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     #cree une grille vide de 9 sur 6
     grille=grille_vide(7,6)
     #designe aléatoirement le joueur qui commence
@@ -214,6 +217,8 @@ def jeu_puissance_4():
             joueur=(joueur+1)%len(pions)
         else:
             print("Veuillez renseigner une colone valide.")
+
+        #Test de victoire pour chacun des pions    
         for i in range(len(pions)):
             if victoire(grille,[pions[i] for _ in range(4)]):
                 afficher_grille(grille)
@@ -413,6 +418,60 @@ def ccs_fin_partie():
 
 
 # ------------------------------------------ Morpion ------------------------------------------
+def morpion():
+    global joueur, pions, jeu_en_cours, grille, alphabet
+    
+    #création d'une liste comportant toutes les lettres de l'alphabet avec un espace proportionel à la place que prendront les caractères des numéros de ligne au début
+    #la liste sera utilisé dans la fonction afficher_grille, case_colonne et case_ligne 
+    
+    #Créer une grille de 3 sur 3
+    grille = grille_vide(3,3)
+    
+    #Désigne un joueur aléatoirement qui commencera 
+    joueur = randint(0,1)
+        
+    #Indique si le jeu est en cours
+    jeu_en_cours = True
+    
+    jeu_morpion()
+    
+
+def jeu_morpion():
+    global pions, joueur, jeu_en_cours, mode
+    while jeu_en_cours:
+        afficher_grille(grille)
+        
+        #Associe un pion à un joueur
+    
+
+        #Permet au joueur de jouer
+        poser(input(f"C'est au tour du joueur {joueur+1} de jouer.\n Son pion est : {pions[joueur]}.\n\
+Veuillez renseigner la lettre de la colone : "),input("Veuillez renseigner le numero de la ligne :"),pions[joueur],grille)
+        
+        #Si les coordonnes rentrees sont invalides, on ne change pas de joueur et vice versa
+        if valide:
+            joueur=(joueur+1)%len(pions)
+        else:
+            print("Veuillez renseigne des coordonees valides.")
+
+        #Test de victoire pour chacun des pions    
+        for i in range(len(pions)):
+            if victoire(grille,[pions[i] for _ in range(3)]):
+                afficher_grille(grille)
+                print(f"Le joueur {i+1} remporte la victoire.\nFélicitation à toi !\nRetour au menu principal…")
+                jeu_en_cours=False
+                mode="Menu"
+
+        '''On teste si tout est vide'''
+        vide=True
+        for ligne in grille:
+            vide= not "_" in ligne and vide
+        if vide:
+            print("Egalite !\nRetour au menu principal...")
+            jeu_en_cours=False
+            mode="Menu"
+    
+            
 
 # ------------------------------------------ La Guerre des Geoliers ------------------------------------------
 def guerre_des_geoliers():
@@ -464,6 +523,7 @@ Veuillez renseigner la lettre de la colone : "),input("Veuillez renseigner le nu
                 print(f"Le joueur {indice_joueur+1} remporte la victoire.\nFélicitation à toi !\nRetour au menu principal…")
                 jeu_en_cours=False
                 mode="Menu"
+        vide=True
         for ligne in grille:
             vide= not "_" in ligne and vide
         if vide:
@@ -491,8 +551,8 @@ def entoure_guerre_des_geoliers(encerclant,encercle,grillage):
 while 1==1:
     if mode=="Menu":
         menu()
-    '''if mode=="Morpion"
-        morpion()'''
+    if mode=="Morpion" :
+        morpion()
     if mode=="Chenes contre Sapins":
         chene_contre_sapin()
     if mode=="Puissance Quatre":
