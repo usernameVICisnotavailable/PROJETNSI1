@@ -26,7 +26,7 @@ VLP Mise en place du jeu tour par tour avec ajout d'un pion différent pour les 
                                                                             
 Arthur Yvernault : 27 décembre 2022 : puissance 4 opérationel, amélioration du programe de base.
 
-    1.1.4 : CCS : Fin de la fonction ccs_entree (fonctionne avec les majuscules) et ajout de commentaires dans le fichier                                                                                 (30/12/22 14h50 --> 15:58)
+VLP : 1.1.4 : CCS : Fin de la fonction ccs_entree (fonctionne avec les majuscules) et ajout de commentaires dans le fichier                                                                                 (30/12/22 14h50 --> 15:58)
     
 DYG : Création du morpion (31/12/2022)
 
