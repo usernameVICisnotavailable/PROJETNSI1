@@ -87,8 +87,8 @@ def menu_choisir_jeu():
 def grille_vide(nb_colonnes,nb_ligne):
 
     '''
-        renvoit un tableau vide avec le nombre de colones et de lignes renseigne qui sont indiqués.
-        Il contiendra les numeros et les lettres des colones et lignes. Il est ideal de l'afficher avec
+        renvoit un tableau vide avec le nombre de colonnes et de lignes renseigne qui sont indiqués.
+        Il contiendra les numeros et les lettres des colonnes et lignes. Il est ideal de l'afficher avec
         la fonctio, afficher_grille(grille)
     '''
     assert nb_colonnes<=26
@@ -126,14 +126,14 @@ def victoire(grillage, tuple_alignement):
     '''
 
     #on parcours tout les points de la grillage
-    for indice_colone in range(1,len(grillage[0])):
+    for indice_colonne in range(1,len(grillage[0])):
         for indice_ligne in range(1,len(grillage)):
             '''a partir de chaque point on cherche dans tout les sens, cad \, /, - et | si
             on trouve l'alignement renseigne. La fonction utiliser pour cela est sous_test_aligne
             Cette methode provoque plus de calcul que besoin, mais contourner le probleme serait
             sans doute une perte de temps compte tenu des capacites de l'ordinateur'''
             for delta_x, delta_y in ((0,1),(1,1),(1,-1),(1,0)):
-                if sous_test_aligne(grillage,indice_colone,indice_ligne,tuple_alignement,delta_x,delta_y) :
+                if sous_test_aligne(grillage,indice_colonne,indice_ligne,tuple_alignement,delta_x,delta_y) :
                     #si des points sont alignes, on renvoit True
                     return True
     #si le test finit, on renvoit False, on a rien trouve.
@@ -169,10 +169,10 @@ def sous_test_aligne(grillage,x,y,tuple_alignement,deltax,deltay, max = float("i
     #si le test finit, on renvoit False, on a rien trouve
     return False
 
-def poser(colone,ligne,pionajouer,grillage):
+def poser(colonne,ligne,pionajouer,grillage):
     '''
     Fonctionne avec les grille de grille_vide
-    pose un pion a la colone et a la ligne renseigne du grillage donne.
+    pose un pion a la colonne et a la ligne renseigne du grillage donne.
     Ne fait rien si ce qui est rentre est invalide et donne alors False a la variable valide
     '''
     global valide
@@ -187,18 +187,18 @@ def poser(colone,ligne,pionajouer,grillage):
         else:
             ligne=float("inf")
 
-    #met colone en majuscule, quel qu'il soit
-    colone=colone.upper()
+    #met colonne en majuscule, quel qu'il soit
+    colonne=colonne.upper()
 
-    #Si la colone est parmis les lettres donnes et que le numero est ni trop grand ni trop petit
-    if colone in grillage[0] and 0<ligne<len(grillage):
-        #on affecte une valeur numerique a la colone en fonction de sa place dans la 1ere ligne
-        colone=grillage[0].index(colone)
+    #Si la colonne est parmis les lettres donnes et que le numero est ni trop grand ni trop petit
+    if colonne in grillage[0] and 0<ligne<len(grillage):
+        #on affecte une valeur numerique a la colonne en fonction de sa place dans la 1ere ligne
+        colonne=grillage[0].index(colonne)
 
         #Si l'emplacement est vide
-        if grillage[ligne][colone]=="_":
+        if grillage[ligne][colonne]=="_":
             #on pose le pion
-            grillage[ligne][colone]=pionajouer
+            grillage[ligne][colonne]=pionajouer
             #cette pose est evidement valide
             valide=True
         else:
@@ -212,7 +212,7 @@ def test_victoire_classique(longueur):
         Test s'il y a alignement de pions identiques de la longeur renseigne
         et si oui, arrete le jeu
     '''
-    global compteur_parties,scores
+    global compteur_parties,scores, jeu_en_cours, mode
     #Test de victoire pour chacun des pions    
     for i in range(len(pions)):
         if victoire(grille,[pions[i] for _ in range(longueur)]):
@@ -221,7 +221,7 @@ def test_victoire_classique(longueur):
             if tournoi_active:
                 fin_de_partie_tournois(i)
                 input("Entree pour continuer")
-                fin_de_partie()
+            fin_de_partie()
 
 def fin_de_partie():
     '''
@@ -235,6 +235,7 @@ def test_egalite(list_grille):
     '''
     Test si la grille est plein. Si oui, egalite et fin de partie
     '''
+    global jeu_en_cours, mode
     vide=True
     for ligne in list_grille:
         vide= not "_" in ligne and vide
@@ -249,7 +250,7 @@ def tour_classique(grillage):
     global joueur
     #Permet au joueur de jouer
     poser(input(f"C'est au tour du joueur {joueur+1} de jouer.\n Son pion est : {pions[joueur]}.\nVeuillez \
-renseigner la lettre de la colone : "),input("Veuillez renseigner le numero de la ligne :"),pions[joueur],grillage)
+renseigner la lettre de la colonne : "),input("Veuillez renseigner le numero de la ligne :"),pions[joueur],grillage)
     
     #Si les coordonnes rentrees sont invalides, on ne change pas de joueur et vice versa
     if valide:
@@ -275,7 +276,7 @@ def accueil_puissance_4():
         Affiche les regles du jeu
     '''
     print("Vous avez choisi de jouer au Puissance 4.\n\
-\nLe puissance 4 se joue à deux joueurs dans un quardilage de 6 lignes sur 7 colones.\
+\nLe puissance 4 se joue à deux joueurs dans un quardilage de 6 lignes sur 7 colonnes.\
 \nCommencer une partie de puissance 4 :\n\
 Pour commencer une partie de puissance 4, on désigne le premier joueur.\n\
 Celui-ci met un de ses jetons de couleur dans l’une des colonnes de son choix.\n\
@@ -321,50 +322,51 @@ def puissance_4_tour():
 
     #Demande a jouer et pose le pion du joueur dont c'est le tour, si c'est valide
     jouer_pion_puissance_4(input(f"C'est au joueur {joueur+1} de joueur \n\
-Son pion est : {pions[joueur]}\nEntrez une colone : "),pions[joueur])
+Son pion est : {pions[joueur]}\nEntrez une colonne : "),pions[joueur])
     
-    #change de joueur si la colone est valide ou redemande a jouer
-    if colone_valide:
+    #change de joueur si la colonne est valide ou redemande a jouer
+    if colonne_valide:
         joueur=(joueur+1)%len(pions)
     else:
-        print("Veuillez renseigner une colone valide.")
+        print("Veuillez renseigner une colonne valide.")
 
 def test_egalite_puissance4():
     '''
         Test s'il y a egalite et si oui, arrete le jeu
     '''
     '''on parcours la grille de ligne en ligne et de bas en haut, 
-    si la ligne du haut (en dessous des lettres de colones) est pleine
+    si la ligne du haut (en dessous des lettres de colonnes) est pleine
     c'est qu'il y a egalite puisque personne n'a gagne.'''
+    jeu_en_cours, mode
     if not "_" in grille[1]:
         afficher_grille(grille)
         print("Egalite !\nLa grille est remplie et personne n'a gagne.\n\
 Remarquez, une egalite n'est-elle pas preferable a la defaite ?")
         fin_de_partie()
 
-def jouer_pion_puissance_4(colone,caractère_joueur):
+def jouer_pion_puissance_4(colonne,caractère_joueur):
     '''
-    Pose le pion renseigne en bas de la colone renseigne dans la liste de nom grille.
-    Donne aussi la valeur True ou False à la variable colone_valide.
+    Pose le pion renseigne en bas de la colonne renseigne dans la liste de nom grille.
+    Donne aussi la valeur True ou False à la variable colonne_valide.
     '''
-    global grille, colone_valide
+    global grille, colonne_valide
 
-    colone=colone.upper()
+    colonne=colonne.upper()
     
     #Si la valeur est correct
-    if colone in grille[0]:
+    if colonne in grille[0]:
         #on associe un indice a la lettre renseigne
-        index_colone=alphabet.index(colone)
+        index_colonne=alphabet.index(colonne)
 
-        #on parcourt la colone de bas en haut
-        for ligne in range(len(grille)-1,0,-1): #de la fin au debut sans la ligne des lettres de colones
+        #on parcourt la colonne de bas en haut
+        for ligne in range(len(grille)-1,0,-1): #de la fin au debut sans la ligne des lettres de colonnes
             #des qu'on rencontre un "_" on place le pion et on termine
-            if grille[ligne][index_colone]=="_":
-                grille[ligne][index_colone]=caractère_joueur
-                colone_valide=True
+            if grille[ligne][index_colonne]=="_":
+                grille[ligne][index_colonne]=caractère_joueur
+                colonne_valide=True
                 break
     else:
-        colone_valide=False
+        colonne_valide=False
 
 ##################################### Chenes contre Sapins #####################################
 
@@ -627,13 +629,13 @@ def entoure_guerre_des_geoliers(encerclant,encercle,grillage):
     '''
     Test si un pion est entoures par les quatre cotes
     '''
-    for indice_colone in range(1,len(grillage[0])):
+    for indice_colonne in range(1,len(grillage[0])):
         for indice_ligne in range(1,len(grillage)):
             #a partir de chaque point on tire une diagonale montante et descendante puis on regarde si suffisament de pions y sont alignes
             resultat=True
             for delta_x, delta_y in ((0,1),(0,-1),(1,0),(-1,0)):
                 #si des points sont alignes, on renvoit True
-                resultat= (resultat and sous_test_aligne(grillage,indice_colone,indice_ligne,(encercle,encerclant),delta_x,delta_y,2))
+                resultat= (resultat and sous_test_aligne(grillage,indice_colonne,indice_ligne,(encercle,encerclant),delta_x,delta_y,2))
             if resultat:
                 return True
             
@@ -695,3 +697,6 @@ while True:
         puissance_quatre()
     if mode=="La Guerre des Geoliers":
         guerre_des_geoliers()
+ 
+
+#SEPT C+"E"*700+T !!!!
